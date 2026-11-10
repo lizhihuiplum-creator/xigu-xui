@@ -1,6 +1,6 @@
 # 系谷 Xigu Tech | Network — 3XUI 定制一键管理脚本
 
-单文件 Bash 脚本，在官方 [3x-ui](https://github.com/MHSanaei/3x-ui) 面板基础上，提供品牌化安装、多协议节点一键生成、Socks5 住宅落地中转与节点链接提取等能力。安装后输入 `xigu` 即可随时打开管理菜单。
+单文件 Bash 脚本集合，在官方 [3x-ui](https://github.com/MHSanaei/3x-ui) 面板基础上，提供品牌化安装、多协议节点一键生成、Socks5 住宅落地中转与节点链接提取等能力。主脚本安装后输入 `xigu` 即可随时打开管理菜单；也可单独运行各协议脚本。
 
 ## 特性
 
@@ -12,16 +12,19 @@
 - 节点分享链接一键提取，统一写入 `/root/xigu-links.txt`
 - 时区一键切换，支持 x86_64 与 arm64
 
-## 支持的协议
+## 脚本清单（共 9 个）
 
-| 协议 | 传输 / 安全 | 说明 |
+| 脚本 | 用途 | 是否需要域名 |
 | --- | --- | --- |
-| VLESS | TCP + Reality | 直连模式，内置大厂伪装目标 |
-| VLESS | WS + TLS | Cloudflare CDN 中转，附带配置提示 |
-| VMess | WS + TLS | Cloudflare CDN 中转 |
-| Trojan | TCP + TLS | 自动生成密码 |
-| Hysteria2 | TLS / QUIC | 高速 UDP |
-| Shadowsocks | 2022-blake3-aes-256-gcm | SS-2022 |
+| `xigu-xui.sh` | 3x-ui 面板全功能一键安装与管理菜单 | 否 |
+| `xigu-vless-reality-vision.sh` | VLESS + Reality + XTLS-Vision | 否 |
+| `xigu-vless-reality.sh` | VLESS + Reality（无 flow） | 否 |
+| `xigu-vless-ws-tls.sh` | VLESS + WS + TLS（可走 CDN） | 是 |
+| `xigu-vmess-ws-tls.sh` | VMess + WS + TLS（CDN 中转） | 是 |
+| `xigu-trojan-tls.sh` | Trojan + TLS（可留空自签） | 是 |
+| `xigu-hysteria2.sh` | Hysteria2 自签，高速 UDP | 否 |
+| `xigu-shadowsocks2022.sh` | Shadowsocks-2022 | 否 |
+| `xigu-cloudflare-worker.sh` | Cloudflare Worker 免费节点引导 | 否 |
 
 ## 支持系统
 
@@ -29,17 +32,33 @@ Debian、Ubuntu、CentOS、AlmaLinux、Rocky，x86_64 与 arm64 架构。
 
 ## 快速开始
 
-以 root 用户运行：
+以 root 用户运行主脚本：
 
 ```bash
 bash xigu-xui.sh
 ```
 
-安装过程中可选择下载通道（境外服务器选 1 直连，国内服务器选 2 镜像）与时区。安装完成后，随时输入以下命令打开管理菜单：
+安装完成后，随时输入以下命令打开管理菜单：
 
 ```bash
 xigu
 ```
+
+## 一键远程命令
+
+把脚本托管后，客户无需上传文件，一条命令即可运行（以 GitHub 直链为例）：
+
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/lizhihuiplum-creator/xigu-xui/main/xigu-xui.sh)
+```
+
+国内服务器直连 GitHub 较慢时，使用 gh-proxy 镜像：
+
+```bash
+bash <(curl -Ls https://gh-proxy.com/https://raw.githubusercontent.com/lizhihuiplum-creator/xigu-xui/main/xigu-xui.sh)
+```
+
+独立协议脚本需要强制镜像时，在命令末尾加 `mirror` 参数即可。
 
 ## 管理菜单
 
@@ -52,12 +71,6 @@ xigu
 7. 提取全部节点链接
 8. 时区设置
 9. 重启面板
-
-## 目录说明
-
-```
-xigu-xui.sh        主安装脚本（单文件）
-```
 
 ## 免责声明
 
