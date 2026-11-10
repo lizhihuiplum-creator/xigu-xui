@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>分销中心 - 系谷 Xigu</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; }
+  body { background:#f0f2f5; color:#0f172a; }
+  .header { background:linear-gradient(135deg,#1d4ed8,#2563eb); color:#fff; padding:16px 18px; }
+  .header .brand { font-size:17px; font-weight:700; }
+  .header .sub { font-size:11px; opacity:.85; margin-top:2px; }
+  .container { max-width:480px; margin:18px auto; padding:0 14px; }
+  .card { background:#fff; border-radius:14px; padding:20px; box-shadow:0 4px 16px rgba(2,6,23,.06); margin-bottom:16px; }
+  h1 { font-size:20px; margin-bottom:16px; }
+  .grid { display:grid; grid-template-columns:1fr; gap:12px; }
+  .stat { padding:15px; border-radius:10px; }
+  .stat p:first-child { font-size:13px; color:#64748b; margin-bottom:5px; }
+  .stat p:last-child { font-size:22px; font-weight:700; }
+  .stat.blue { background:#e8f3ff; } .stat.blue p:last-child { color:#165dff; }
+  .stat.green { background:#f0fdf4; } .stat.green p:last-child { color:#059669; }
+  .stat.orange { background:#fff7ed; } .stat.orange p:last-child { color:#ea580c; }
+  .link-box { display:flex; gap:8px; background:#f3f4f6; padding:10px; border-radius:9px; margin-top:8px; }
+  .link-box input { flex:1; min-width:0; border:none; background:transparent; outline:none; font-size:13px; }
+  .link-box button { background:#165dff; color:#fff; border:none; padding:8px 14px; border-radius:7px; cursor:pointer; }
+  .section-title { font-size:15px; font-weight:600; margin:18px 0 6px; }
+  /* 锁定界面 */
+  .lock-ico { width:58px; height:58px; margin:6px auto 14px; border-radius:50%; background:#fef3c7; color:#b45309; display:flex; align-items:center; justify-content:center; font-size:28px; }
+  .lock-tip { font-size:13.5px; line-height:1.65; color:#334155; text-align:center; margin-bottom:16px; }
+  .apply-btn { width:100%; border:none; background:#0e7a43; color:#fff; font-size:15px; font-weight:600; border-radius:10px; padding:13px; cursor:pointer; }
+  .apply-btn:disabled { opacity:.7; cursor:default; }
+  .contact { display:flex; gap:10px; margin-top:14px; }
+  .contact a { flex:1; text-align:center; font-size:13px; font-weight:600; text-decoration:none; border-radius:9px; padding:11px 6px; border:1px solid #cbd5e1; color:#1d4ed8; }
+  .lock-msg { font-size:12.5px; color:#0e7a43; text-align:center; margin-top:12px; min-height:16px; }
+  /* 品牌条 */
+  .brandbar { display:block; text-decoration:none; color:#1e293b; background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:14px 16px; margin-bottom:16px; }
+  .brandbar .bb-top { display:flex; align-items:center; gap:10px; }
+  .brandbar .bb-logo { width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg,#1d4ed8,#2563eb); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; }
+  .brandbar .bb-name { font-weight:700; font-size:14px; }
+  .brandbar .bb-desc { font-size:12px; color:#64748b; margin-top:2px; }
+  .brandbar .bb-go { font-size:12px; color:#2563eb; margin-top:8px; font-weight:600; }
+  .muted { color:#94a3b8; font-size:13px; text-align:center; padding:20px 0; }
+  .hidden { display:none !important; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">系谷 Xigu Tech</div>
+    <div class="sub">Xigu Tech | Network · 分销中心</div>
+  </div>
+
+  <div class="container">
+    <!-- 品牌广告条 -->
+    <a class="brandbar" href="https://cn.jige.us" target="_blank" rel="noopener">
+      <div class="bb-top">
+        <div class="bb-logo">XG</div>
+        <div>
+          <div class="bb-name">系谷 Xigu Tech | Network</div>
+          <div class="bb-desc">全球网络服务 · 多语言系统 · 软件定制</div>
+        </div>
+      </div>
+      <div class="bb-go">访问官方网站了解更多 →</div>
+    </a>
+
+    <!-- 授权锁定视图 -->
+    <div class="card" id="lockView">
+      <div class="lock-ico">🔒</div>
+      <p class="lock-tip">本分销系统尚未在当前域名开通授权。<br>点击「申请使用」后我们会收到通知，审核通过即可使用。</p>
+      <button class="apply-btn" id="applyBtn">申请使用</button>
+      <div class="contact">
+        <a href="https://t.me/xigu_support_bot" target="_blank" rel="noopener">Telegram</a>
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=1441673277&site=qq&menu=yes" target="_blank" rel="noopener">QQ 1441673277</a>
+      </div>
+      <p class="lock-msg" id="lockMsg"></p>
+    </div>
+
+    <!-- 分销数据视图 -->
+    <div id="appView" class="hidden">
+      <div class="card">
+        <h1>分销中心</h1>
+        <div class="grid">
+          <div class="stat blue"><p>可提现余额</p><p id="vBalance">¥0.00</p></div>
+          <div class="stat green"><p>累计佣金</p><p id="vCommission">¥0.00</p></div>
+          <div class="stat orange"><p>推广订单 / 团队</p><p id="vOrders">0 / 0</p></div>
+        </div>
+        <div class="section-title">我的推广链接</div>
+        <div class="link-box">
+          <input type="text" id="promoLink" readonly>
+          <button onclick="copyLink()">复制</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="muted" id="loadingView">加载中...</div>
+  </div>
+
+<script>
+  var CENTRAL = 'https://cn.jige.us';
+  function money(v){ return '¥' + Number(v || 0).toFixed(2); }
+
+  function showLock(){
+    document.getElementById('lockView').classList.remove('hidden');
+    document.getElementById('appView').classList.add('hidden');
+    document.getElementById('loadingView').classList.add('hidden');
+  }
+  function showApp(d){
+    document.getElementById('lockView').classList.add('hidden');
+    document.getElementById('appView').classList.remove('hidden');
+    document.getElementById('loadingView').classList.add('hidden');
+    document.getElementById('vBalance').textContent = money(d.balance);
+    document.getElementById('vCommission').textContent = money(d.total_commission);
+    document.getElementById('vOrders').textContent = (d.total_orders || 0) + ' / ' + (d.total_team || 0);
+    document.getElementById('promoLink').value = d.promo_link || '';
+  }
+
+  // 启动：通过自己的后端判断授权（未授权后端返回 403 locked）
+  function loadData(){
+    var uid = 0;
+    try { uid = localStorage.getItem('xg_dist_uid') || 0; } catch(e){}
+    fetch('distribution.php?action=getUserData&user_id=' + encodeURIComponent(uid) + '&username=&phone=')
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if (j && j.license === 'locked') { showLock(); return; }
+        if (j && j.code === 200 && j.data) { showApp(j.data); }
+        else { showLock(); }
+      })
+      .catch(function(){ showLock(); });
+  }
+
+  // 申请：直接 POST 中央授权服务器（已开 CORS）
+  document.getElementById('applyBtn').addEventListener('click', function(){
+    var btn = this, msg = document.getElementById('lockMsg');
+    btn.disabled = true;
+    fetch(CENTRAL + '/license.php', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ action:'request', domain:location.hostname, product:'distribution',
+        contact:'来自分销页面申请' })
+    }).then(function(r){ return r.json(); })
+      .then(function(j){
+        if (j && j.code === 200) msg.textContent = '申请已提交，请通过 QQ/Telegram 联系我们尽快开通';
+        else { btn.disabled = false; msg.textContent = '提交失败，请直接通过 QQ/Telegram 联系'; }
+      })
+      .catch(function(){ btn.disabled = false; msg.textContent = '网络异常，请直接通过 QQ/Telegram 联系'; });
+  });
+
+  function copyLink(){
+    var input = document.getElementById('promoLink');
+    input.select();
+    if (navigator.clipboard) { navigator.clipboard.writeText(input.value); }
+    else document.execCommand('copy');
+    alert('链接已复制！');
+  }
+
+  loadData();
+</script>
+</body>
+</html>

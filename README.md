@@ -2,6 +2,8 @@
 
 单文件 Bash 脚本集合，在官方 [3x-ui](https://github.com/MHSanaei/3x-ui) 面板基础上，提供品牌化安装、多协议节点一键生成、Socks5 住宅落地中转与节点链接提取等能力。主脚本安装后输入 `xigu` 即可随时打开管理菜单；也可单独运行各协议脚本。
 
+> **PHP 客服与分销系统（含授权锁）**：见 [`customer-system/`](customer-system/README.md)，可独立部署，默认按域名授权，需联系系谷开通。
+
 ## 特性
 
 - 一键安装官方 3x-ui，支持 GitHub 直连与国内 gh-proxy 镜像两条下载通道
