@@ -18,15 +18,18 @@ try {
     die(json_encode(['code' => 500, 'msg' => '数据库连接失败']));
 }
 
-if ($_GET['action'] == 'getUserData') {
-    $userId = $_GET['user_id'];
+$action = $_GET['action'] ?? '';
+if ($action == 'getUserData') {
+    $userId = (int)($_GET['user_id'] ?? 0);
+    $username = substr((string)($_GET['username'] ?? ''), 0, 100);
+    $phone = substr((string)($_GET['phone'] ?? ''), 0, 50);
     $stmt = $pdo->prepare("SELECT * FROM dist_users WHERE user_id = ?");
     $stmt->execute([$userId]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     if (!$user) {
         $stmt = $pdo->prepare("INSERT INTO dist_users (user_id, username, phone, join_time) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$userId, $_GET['username'], $_GET['phone'], time()]);
+        $stmt->execute([$userId, $username, $phone, time()]);
         $newId = (int)$pdo->lastInsertId();
         $user = [
             'id' => $newId,
@@ -42,6 +45,7 @@ if ($_GET['action'] == 'getUserData') {
     $stmt = $pdo->prepare("SELECT commission1, commission2, commission3 FROM dist_products WHERE status = 1 LIMIT 1");
     $stmt->execute();
     $rates = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$rates) $rates = ['commission1' => '0.00', 'commission2' => '0.00', 'commission3' => '0.00'];
     
     echo json_encode([
         'code' => 200,
