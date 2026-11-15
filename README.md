@@ -78,6 +78,13 @@ bash <(curl -Ls https://gh-proxy.com/https://raw.githubusercontent.com/lizhihuip
 
 本脚本仅用于学习与合法的服务器运维、网络管理场景，请遵守所在地区的法律法规。使用者需对自身行为负责，作者不对滥用承担责任。
 
+## 官方网站
+
+- 系谷科技（官网）：[https://cn.jige.us/](https://cn.jige.us/)
+- XG 翻译 · 双向语音翻译：[https://fy.jige.us/](https://fy.jige.us/)
+- XG 世界时钟 · 时区与中外日历：[https://sz.jige.us/](https://sz.jige.us/)
+- XG IP 检测 · 平台连通与测速：[https://ipip.jige.us/](https://ipip.jige.us/)
+
 ---
 
 系谷 Xigu Tech | Network
